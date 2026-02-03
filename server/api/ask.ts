@@ -9,7 +9,7 @@ import { sendToClient } from '../plugins/websocket'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
-  const apiKey = config.openrouterApiKey
+  const apiKey = config.openrouterApiKey || process.env.OPENROUTER_API_KEY
   const siteUrl = config.public.siteUrl as string
   const siteName = config.public.siteName as string
 

@@ -7,7 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "docker:build": "docker build -t ai-opinion .",
+    "docker:run": "docker run -d -p 3000:3000 -p 3001:3001 --env-file .env --name ai-opinion ai-opinion",
+    "docker:stop": "docker stop ai-opinion && docker rm ai-opinion"
   },
   "dependencies": {
     "nuxt": "^4.3.0",
@@ -23,3 +26,4 @@
     "@types/ws": "^8.18.1"
   }
 }
+

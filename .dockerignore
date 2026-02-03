@@ -1,0 +1,12 @@
+node_modules
+.output
+.nuxt
+.git
+.gitignore
+.env
+dist
+coverage
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
