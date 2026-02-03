@@ -6,6 +6,7 @@
  */
 
 import { sendToClient } from '../plugins/websocket'
+import { addIgnoredModel } from '../utils/modelService'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
@@ -116,10 +117,17 @@ export default defineEventHandler(async (event) => {
 
       return result
     } catch (error: any) {
+      const errorMessage = error.message || 'Unknown error occurred'
+      
+      // Check if error is "No endpoints found for..." and add to ignored list
+      if (errorMessage.includes('No endpoints found for')) {
+        addIgnoredModel(modelName)
+      }
+
       const result = {
         model: modelName,
         status: 'error',
-        error: error.message || 'Unknown error occurred'
+        error: errorMessage
       }
 
       // Send error immediately via WebSocket

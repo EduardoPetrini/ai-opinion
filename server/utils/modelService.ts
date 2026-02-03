@@ -1,5 +1,6 @@
 
 let cachedModels: string[] = []
+let ignoredModels: Set<string> = new Set()
 
 interface OpenRouterModel {
   id: string
@@ -16,6 +17,19 @@ interface OpenRouterResponse {
     models: OpenRouterModel[]
   }
 }
+
+// Initialize ignored models from environment variable
+function initializeIgnoredModels() {
+  const envIgnored = process.env.IGNORED_MODELS || ''
+  if (envIgnored) {
+    const models = envIgnored.split(',').map(m => m.trim()).filter(m => m.length > 0)
+    models.forEach(model => ignoredModels.add(model))
+    console.log(`Initialized ${ignoredModels.size} ignored models from environment`)
+  }
+}
+
+// Call initialization
+initializeIgnoredModels()
 
 export const fetchModels = async () => {
   try {
@@ -48,6 +62,22 @@ export const fetchModels = async () => {
 }
 
 export const getModels = () => {
-  // Return a copy to prevent mutation
-  return [...cachedModels]
+  // Filter out ignored models and return a copy
+  return cachedModels.filter(model => !ignoredModels.has(model))
+}
+
+export const addIgnoredModel = (modelSlug: string) => {
+  if (!ignoredModels.has(modelSlug)) {
+    ignoredModels.add(modelSlug)
+    console.log(`Added model to ignored list: ${modelSlug}`)
+    console.log(`Total ignored models: ${ignoredModels.size}`)
+  }
+}
+
+export const getIgnoredModels = () => {
+  return Array.from(ignoredModels)
+}
+
+export const isModelIgnored = (modelSlug: string) => {
+  return ignoredModels.has(modelSlug)
 }
