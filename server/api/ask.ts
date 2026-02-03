@@ -38,13 +38,9 @@ export default defineEventHandler(async (event) => {
 
   // All available free models from OpenRouter
   const allModels = [
-    "arcee-ai/trinity-large-preview",
-    "tngtech/deepseek-r1t2-chimera",
     "z-ai/glm-4.5-air",
-    "tngtech/deepseek-r1t-chimera",
     "deepseek/deepseek-r1-0528",
     "nvidia/nemotron-3-nano-30b-a3b",
-    "stepfun/step-3.5-flash",
     "tngtech/tng-r1t-chimera",
     "openai/gpt-oss-120b",
     "meta-llama/llama-3.3-70b-instruct",
@@ -55,14 +51,11 @@ export default defineEventHandler(async (event) => {
     "openai/gpt-oss-20b",
     "qwen/qwen3-next-80b-a3b-instruct-2509",
     "nvidia/nemotron-nano-12b-v2-vl",
-    "allenai/molmo-2-8b-20260109",
     "nvidia/nemotron-nano-9b-v2",
-    "venice/uncensored",
     "liquid/lfm-2.5-1.2b-thinking-20260120",
     "liquid/lfm-2.5-1.2b-instruct-20260120",
     "nousresearch/hermes-3-llama-3.1-405b",
     "mistralai/mistral-small-3.1-24b-instruct-2503",
-    "qwen/qwen3-4b-04-28",
     "google/gemma-3n-e2b-it",
     "google/gemma-3-12b-it",
     "google/gemma-3-4b-it",
@@ -99,6 +92,7 @@ export default defineEventHandler(async (event) => {
         },
         body: JSON.stringify({
           model: modelName,
+          max_tokens: 1024,
           messages: [
             {
               role: 'system',
