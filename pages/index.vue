@@ -122,7 +122,7 @@ const results = ref<
  */
 function formatModelName(fullName: string): string {
   const parts = fullName.split('/');
-  const modelName = parts[parts.length - 1];
+  const modelName = parts[parts.length - 1] || fullName;
   return modelName
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
