@@ -2,6 +2,8 @@
 
 A real-time multi-LLM opinion aggregator built with Nuxt 4. This application allows users to ask a question and receive concurrent responses from up to 15 different AI models via the OpenRouter API.
 
+![AI Opinion App Screenshot](docs/home.png)
+
 ## Features
 
 - **Multi-Model Querying**: Automatically selects 15 random free models from OpenRouter to get diverse perspectives.
