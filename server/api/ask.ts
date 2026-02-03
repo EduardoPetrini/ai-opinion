@@ -37,34 +37,20 @@ export default defineEventHandler(async (event) => {
   }
 
   // All available free models from OpenRouter
-  const allModels = [
-    "z-ai/glm-4.5-air",
-    "deepseek/deepseek-r1-0528",
-    "nvidia/nemotron-3-nano-30b-a3b",
-    "tngtech/tng-r1t-chimera",
-    "openai/gpt-oss-120b",
-    "meta-llama/llama-3.3-70b-instruct",
-    "upstage/solar-pro-3",
-    "qwen/qwen3-coder-480b-a35b-07-25",
-    "google/gemma-3-27b-it",
-    "arcee-ai/trinity-mini-20251201",
-    "openai/gpt-oss-20b",
-    "qwen/qwen3-next-80b-a3b-instruct-2509",
-    "nvidia/nemotron-nano-12b-v2-vl",
-    "nvidia/nemotron-nano-9b-v2",
-    "liquid/lfm-2.5-1.2b-thinking-20260120",
-    "liquid/lfm-2.5-1.2b-instruct-20260120",
-    "nousresearch/hermes-3-llama-3.1-405b",
-    "mistralai/mistral-small-3.1-24b-instruct-2503",
-    "google/gemma-3n-e2b-it",
-    "google/gemma-3-12b-it",
-    "google/gemma-3-4b-it",
-    "meta-llama/llama-3.2-3b-instruct",
-    "qwen/qwen-2-vl-7b-instruct",
-    "google/gemma-3n-e4b-it",
-    "meta-llama/llama-3.1-405b-instruct",
-    "openrouter/free"
-  ]
+  // All available free models from OpenRouter (fetched dynamically)
+  const allModels = getModels()
+
+  // Fallback if no models are available (should not happen if plugin working correctly)
+  if (allModels.length === 0) {
+    console.warn('No models found in cache, using fallback list')
+    allModels.push(
+      "google/gemma-3-12b-it",
+      "deepseek/deepseek-r1-0528",
+      "meta-llama/llama-3.3-70b-instruct",
+      "qwen/qwen-2-vl-7b-instruct",
+      "google/gemma-3-27b-it"
+    )
+  }
 
   // Randomly select 10 models from the available list
   const models = allModels
