@@ -49,9 +49,25 @@
         <div v-for="result in results" :key="result.model" class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-white/20 hover:border-purple-400/50 transition-all duration-300">
           <!-- Model Name -->
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-white truncate" :title="result.model">
-              {{ formatModelName(result.model) }}
-            </h3>
+            <div class="flex items-center gap-2 overflow-hidden mr-2">
+              <h3 class="text-lg font-semibold text-white truncate" :title="result.model">
+                {{ formatModelName(result.model) }}
+              </h3>
+
+              <!-- Copy Button -->
+              <button v-if="result.status === 'success'" @click="copyToClipboard(result.response || '', result.model)" class="text-gray-400 hover:text-white transition-colors duration-200 focus:outline-none" :title="copiedModel === result.model ? 'Copied!' : 'Copy answer'">
+                <span v-if="copiedModel === result.model" class="text-green-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+                <span v-else>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                </span>
+              </button>
+            </div>
 
             <!-- Status Badge -->
             <span
@@ -60,7 +76,7 @@
                 'bg-green-500/20 text-green-300': result.status === 'success',
                 'bg-red-500/20 text-red-300': result.status === 'error',
               }"
-              class="px-3 py-1 rounded-full text-xs font-medium"
+              class="px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap"
             >
               {{ result.status }}
             </span>
@@ -115,6 +131,26 @@ const results = ref<
     error?: string;
   }>
 >([]);
+const copiedModel = ref<string | null>(null);
+
+/**
+ * Copy text to clipboard
+ */
+async function copyToClipboard(text: string, model: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    copiedModel.value = model;
+
+    // Reset icon after 2 seconds
+    setTimeout(() => {
+      if (copiedModel.value === model) {
+        copiedModel.value = null;
+      }
+    }, 2000);
+  } catch (err) {
+    console.error('Failed to copy text:', err);
+  }
+}
 
 /**
  * Format model name for display

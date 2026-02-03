@@ -52,10 +52,10 @@ export default defineEventHandler(async (event) => {
     )
   }
 
-  // Randomly select 10 models from the available list
+  // Randomly select 15 models from the available list
   const models = allModels
     .sort(() => Math.random() - 0.5)
-    .slice(0, 10)
+    .slice(0, 15)
 
   // Send initial message with selected models
   sendToClient(sessionId, {
