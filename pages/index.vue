@@ -4,7 +4,7 @@
       <!-- Header -->
       <header class="text-center mb-12">
         <h1 class="text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">AI Opinion Panel</h1>
-        <p class="text-gray-300 text-lg">Ask a question and get opinions from 10 randomly selected AI models</p>
+        <p class="text-gray-300 text-lg">Ask a question and get opinions from 15 randomly selected AI models</p>
 
         <!-- Connection Status Indicator -->
         <div class="mt-4 flex items-center justify-center gap-2">
@@ -189,10 +189,9 @@ function resetResults() {
 function connectWebSocket() {
   connectionStatus.value = 'connecting';
 
-  // Connect to WebSocket server on port 3001
-  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  const host = window.location.hostname;
-  const wsUrl = `${protocol}//${host}:3001`;
+  // Connect to WebSocket server
+  const config = useRuntimeConfig();
+  const wsUrl = config.public.wsUrl;
 
   console.log('Connecting to WebSocket:', wsUrl);
 

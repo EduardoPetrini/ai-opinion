@@ -10,6 +10,8 @@ import { sendToClient } from '../plugins/websocket'
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const apiKey = config.openrouterApiKey
+  const siteUrl = config.public.siteUrl as string
+  const siteName = config.public.siteName as string
 
   if (!apiKey) {
     throw createError({
@@ -73,8 +75,8 @@ export default defineEventHandler(async (event) => {
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
-          'HTTP-Referer': 'http://localhost:3000', // Optional, for rankings
-          'X-Title': 'AI Opinion App' // Optional, for rankings
+          'HTTP-Referer': siteUrl, // Optional, for rankings
+          'X-Title': siteName // Optional, for rankings
         },
         body: JSON.stringify({
           model: modelName,

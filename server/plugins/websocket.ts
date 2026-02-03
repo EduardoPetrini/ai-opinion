@@ -44,9 +44,10 @@ export default defineNitroPlugin((nitroApp) => {
   console.log('🔌 Initializing WebSocket plugin...')
 
   // Create WebSocket server on a separate port to avoid conflicts
+  const port = parseInt(process.env.WEBSOCKET_PORT || '3001')
   if (!wss) {
-    wss = new WebSocketServer({ port: 3001 })
-    console.log('🔌 WebSocket server listening on port 3001')
+    wss = new WebSocketServer({ port })
+    console.log(`🔌 WebSocket server listening on port ${port}`)
   }
 
   // Handle new WebSocket connections
